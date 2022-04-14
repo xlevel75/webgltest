@@ -1,0 +1,26 @@
+ManifestFileVersion: 0
+CRC: 2432123432
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: kids_n.unity3d
+      Dependencies:
+        Dependency_0: kids_textures.unity3d
+    Info_1:
+      Name: kids_f1.unity3d
+      Dependencies:
+        Dependency_0: kids_n.unity3d
+        Dependency_1: kids_textures.unity3d
+    Info_2:
+      Name: kids_f2.unity3d
+      Dependencies:
+        Dependency_0: kids_n.unity3d
+        Dependency_1: kids_textures.unity3d
+    Info_3:
+      Name: kids_t1.unity3d
+      Dependencies:
+        Dependency_0: kids_n.unity3d
+        Dependency_1: kids_textures.unity3d
+    Info_4:
+      Name: kids_textures.unity3d
+      Dependencies: {}
