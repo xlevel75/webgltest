@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1770808734
+CRC: 3457878704
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 64929bf9ef5ad75a232eef401db0b252
+    Hash: 4dc707ec4cf82ac32ce9a8c5dfccdd1b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7f3911a35d6eaa4063a3a48216acb9d0
@@ -38,6 +38,6 @@ ClassTypes:
 Assets:
 - Assets/CC_Assets/ena_basicbody_t1/Meshes/ena_t1.Fbx
 - Assets/CC_Assets/ena_basicbody_t1/ena_t1.prefab
+- Assets/CC_Assets/ena_basicbody_t1/enaController_t1.controller
 Dependencies:
-- D:/Github/CC3ExportTest/AssetBundles/Android/kids_n.unity3d
 - D:/Github/CC3ExportTest/AssetBundles/Android/kids_textures.unity3d
