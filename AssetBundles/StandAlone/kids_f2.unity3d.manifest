@@ -1,0 +1,43 @@
+ManifestFileVersion: 0
+CRC: 4184564247
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1ed4775a40369f55c51f04a31e6cd87d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7f3911a35d6eaa4063a3a48216acb9d0
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5ce12a1f8c9d25149b4cc751ac1159e7, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/CC_Assets/ena_basicbody_f2/enaController_f2.controller
+- Assets/CC_Assets/ena_basicbody_f2/ena_f2.prefab
+- Assets/CC_Assets/ena_basicbody_f2/Meshes/ena_f2.Fbx
+Dependencies:
+- D:/Github/CC3ExportTest/AssetBundles/StandAlone/kids_textures.unity3d
