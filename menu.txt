@@ -1,8 +1,8 @@
 {"listMenu":[
-{"indexInfo":0,"url":"https://xlevel75.github.io/webgltest/menu_bibim_bap.png","name":"비빔밥","price":9000},
-{"indexInfo":1,"url":"https://xlevel75.github.io/webgltest/menu_galbi_zzim.png","name":"갈비찜","price":11000},
-{"indexInfo":2,"url":"https://xlevel75.github.io/webgltest/menu_gomtang.png","name":"곰탕","price":9000},
-{"indexInfo":3,"url":"https://xlevel75.github.io/webgltest/menu_kimch_jungol.png","name":"김치전골","price":13000},
-{"indexInfo":4,"url":"https://xlevel75.github.io/webgltest/menu_nacji_bockm.png","name":"낙지볶음","price":13000},
-{"indexInfo":5,"url":"https://xlevel75.github.io/webgltest/menu_samga_tang.png","name":"삼계탕","price":15000}
+{"indexInfo":0,"url":"https://xlevel75.github.io/webgltest/menu_bibim_bap.png","name":"비빔밥","price":9000, "isEnable":false },
+{"indexInfo":1,"url":"https://xlevel75.github.io/webgltest/menu_galbi_zzim.png","name":"갈비찜","price":11000, "isEnable":true },
+{"indexInfo":2,"url":"https://xlevel75.github.io/webgltest/menu_gomtang.png","name":"곰탕","price":9000, "isEnable":true},
+{"indexInfo":3,"url":"https://xlevel75.github.io/webgltest/menu_kimch_jungol.png","name":"김치전골","price":13000, "isEnable":true},
+{"indexInfo":4,"url":"https://xlevel75.github.io/webgltest/menu_nacji_bockm.png","name":"낙지볶음","price":13000, "isEnable":true},
+{"indexInfo":5,"url":"https://xlevel75.github.io/webgltest/menu_samga_tang.png","name":"삼계탕","price":15000,"isEnable":false}
 ]}
