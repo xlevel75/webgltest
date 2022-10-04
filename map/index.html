@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>지도 생성하기</title>
+    
+</head>
+ <style>
+    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+    .wrap * {padding: 0;margin: 0;}
+    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close:hover {cursor: pointer;}
+    .info .body {position: relative;overflow: hidden;}
+    .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    .info .link {color: #5085BB;}
+</style>
+<style>
+.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+</style>
+<style>
+.label {margin-bottom: -24px;}
+.label * {display: inline-block;vertical-align: bottom;}
+.label .left {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png") no-repeat;display: inline-block;height: 24px;overflow: hidden;vertical-align: top;width: 7px;}
+.label .center {background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png) repeat-x;display: inline-block;height: 24px;font-size: 12px;line-height: 24px;}
+.label .right {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png") -1px 0  no-repeat;display: inline-block;height: 24px;overflow: hidden;width: 6px;}
+</style>
+<body>
+<!-- 지도를 표시할 div 입니다 -->
+<div id="map" style="width:100%;height:450px;"></div>
+<div id="clickLatlng"></div>
+<div id="clickLatlngDragEnd"></div>
+
+<p>
+    <button onclick="setCenter()">지도 중심좌표 이동시키기</button> 
+    <button onclick="panTo()">지도 중심좌표 부드럽게 이동시키기</button> 
+	 <button onclick="setGpsCenter()">현재위치로 이동</button> 
+</p>
+<p>
+    <button onclick="zoomIn()">지도레벨 - 1</button>
+    <button onclick="zoomOut()">지도레벨 + 1</button>
+    <span id="maplevel"></span>
+</p>
+<p>
+<button onclick="setDraggable(false)">지도 드래그 이동 끄기</button>
+<button onclick="setDraggable(true)">지도 드래그 이동 켜기</button>
+</p>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=678f61c23a5f25315825956f479996da"></script>
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+mapOption = { 
+	center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	level: 3 // 지도의 확대 레벨
+};
+
+
+
+// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+var mapTypeControl = new kakao.maps.MapTypeControl();
+map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+//map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);     // state traffic
+//map.addOverlayMapTypeId(kakao.maps.MapTypeId.ROADVIEW);   // state roadview
+
+
+var imageMarker = new kakao.maps.MarkerImage
+( 	'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', 
+	new kakao.maps.Size(70,70), 
+	{ offset: new kakao.maps.Point(27,70) }
+);
+
+//var infoBohosoo = new kakao.maps.InfoWindow({
+//	map:map,
+//	position: new kakao.maps.LatLng(33.450701, 126.570667), 
+//	content: '<div style="padding:5px;">Hello World!</div>',
+//	removable: true
+//})
+//infoBohosoo.close();
+
+var LastInforWindow = null;
+
+var markerinfos = [
+{	image :  imageMarker,
+	id : "marker1",
+	content :  '<div>message333</div>', 
+	ontentov :  getOverlayString( "message 1","여기주소","adress00"),
+	overlaymsg : '<div class ="label"><span class="left"></span><span class="center">좋은 나무 팔아요</span><span class="right"></span></div>',
+	gpspos : new kakao.maps.LatLng(33.450705, 126.573677)
+},
+{	image :  imageMarker,
+	id : "marker2",
+	content :  '<div>message333</div>', 
+	ontentov :  getOverlayString( "message 2","여기주소","adress01"),
+	overlaymsg : '<div class ="label"><span class="left"></span><span class="center">천년의 은행나뭅</span><span class="right"></span></div>',	
+	gpspos : new kakao.maps.LatLng(33.450705, 126.574677)
+},
+{	image :  imageMarker,
+	id : "marker3",
+	content :  '<div>message333</div>', 
+	ontentov :  getOverlayString( "message 3","여기주소","adress02"),
+	overlaymsg : '<div class ="label"><span class="left"></span><span class="center">보르황재납시요</span><span class="right"></span></div>',	
+	gpspos : new kakao.maps.LatLng( 33.450936, 126.569477)
+},
+{	image :  imageMarker,
+	id : "marker4",
+	content :  '<div>message444</div>', 
+	ontentov :  getOverlayString( "message 4","여기주소","adress03"),
+	overlaymsg : '<div class ="label"><span class="left"></span><span class="center">세계짱짱나무</span><span class="right"></span></div>',	
+	gpspos : new kakao.maps.LatLng( 33.451393, 126.570738)
+},
+];
+
+var overlay = new kakao.maps.CustomOverlay({
+	content: markerinfos[0].ontentov,
+	map: map,
+	position: markerinfos[0].gpspos       
+});
+overlay.setMap(null);
+
+for( var i=0;i<markerinfos.length; ++i )
+{
+	var newMarker = new kakao.maps.Marker(
+	{
+		position : markerinfos[i].gpspos,
+		//image : markerinfos[i].image,	
+	}
+	);
+	newMarker.index = i;
+	newMarker.setMap(map);
+	newMarker.setDraggable( false );
+	markerinfos[i].marker = newMarker;
+
+	var contentOne = markerinfos[i].content;
+	
+	var customOverlay = new kakao.maps.CustomOverlay({
+		position: markerinfos[i].gpspos,
+		content: markerinfos[i].overlaymsg   
+	});	
+	customOverlay.setMap(map);
+	
+	kakao.maps.event.addListener( newMarker, 'click' ,
+	makeClickOverlayListener( map, newMarker, overlay ) ); 
+
+}
+
+
+
+/*
+
+var marker  = new kakao.maps.Marker({ 
+        position: map.getCenter(),
+		image : imageMarker
+		}); 
+		
+marker.setMap(map);
+marker.setDraggable( true );
+
+var infow = new kakao.maps.InfoWindow({
+	map:map,
+	position: new kakao.maps.LatLng(33.450701, 126.570667), 
+	content: '<div style="padding:5px;">Hello World!</div>',
+	removable: true
+});
+
+kakao.maps.event.addListener( marker, 'click' ,
+function( mevent )
+{
+	infow.open( map, marker);
+});
+kakao.maps.event.addListener( marker, 'dragend' ,
+function( mevent )
+{
+	infow.open( map, marker);
+});
+kakao.maps.event.addListener( marker, 'dragstart' ,
+function( mevent )
+{
+	infow.open( map, marker);
+});
+kakao.maps.event.addListener( map, 'click' ,
+function( mevent )
+{
+	var lat = mevent.latLng;
+	marker.setPosition(lat);
+	var message = '위도:' + lat.getLat() + ' 경도:' + lat.getLng();	
+	var resultDiv = document.getElementById('clickLatlng'); 
+	resultDiv.innerHTML = message;
+});
+
+kakao.maps.event.addListener( map, 'dragend' ,
+function( mevent )
+{
+	var lat = map.getCenter();
+	//marker.setPosition(lat);
+	var message = '가운대 지역 위도:' + lat.getLat() + ' 경도:' + lat.getLng();	
+	var resultDiv = document.getElementById('clickLatlngDragEnd'); 
+	resultDiv.innerHTML = message;
+});
+
+*/
+function getOverlayString( title, imgSrc, adress )
+{
+var content = '<div class="wrap">' + 
+            '    <div class="info">' + 
+            '        <div class="title">' + 
+            '           ' + title + 
+            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+            '        </div>' + 
+            '        <div class="body">' + 
+            '            <div class="img">' +
+            '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+            '           </div>' + 
+            '            <div class="desc">' + 
+            '                <div class="ellipsis">' + adress +'</div>' + 
+            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+            //'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+			'                <div><a href="uniwebview://selectinfo?title="+title target="_blank" class="link">홈페이지</a></div>' + 
+            '            </div>' + 
+            '        </div>' + 
+            '    </div>' +    
+            '</div>';
+			
+			
+return content;
+}
+
+
+function makeClickListener(map, marker, infowindow) 
+{   return function() 
+	{   
+	if( LastInforWindow )
+	LastInforWindow.close();
+	
+	LastInforWindow = infowindow;	
+	infowindow.open(map, marker);
+	};
+}
+function makeClickOverlayListener(map, marker, overlay) 
+{   return function() 
+	{   
+	if( LastInforWindow )
+		LastInforWindow.setMap(null);     
+	
+	LastInforWindow = overlay;	
+	overlay.setContent(  markerinfos[marker.index].ontentov );
+	overlay.setPosition( markerinfos[marker.index].gpspos);
+	overlay.setMap(map);
+	
+	window.location.href = 'uniwebview://markerselect?index=' + marker.index + '?id=' + markerinfos[marker.index].id;
+          
+	};
+}
+function closeOverlay() 
+{	if( LastInforWindow )
+		LastInforWindow.setMap(null);       
+}
+function makeOutListener(infowindow) 
+{   return function() 
+	{  
+//	infowindow.close();
+	};
+}
+
+
+
+function setCenter() 
+{   var moveLatLon = new kakao.maps.LatLng(33.452613, 126.570888);
+    map.setCenter(moveLatLon);
+}
+function panTo() 
+{   var moveLatLon = new kakao.maps.LatLng(33.450580, 126.574942);
+    map.panTo(moveLatLon);            
+} 
+function zoomIn() {        
+    var level = map.getLevel();
+    map.setLevel(level - 1);
+    displayLevel();
+}   
+function zoomOut() {    
+	var level = map.getLevel(); 
+    map.setLevel(level + 1);
+    displayLevel(); 
+}    
+function setDraggable(draggable) {
+     map.setDraggable(draggable);    
+}
+function displayLevel(){
+    var levelEl = document.getElementById('maplevel');
+    levelEl.innerHTML = 'Level:' + map.getLevel();
+}
+function setMapType(maptype) { 
+    var roadmapControl = document.getElementById('btnRoadmap');
+    var skyviewControl = document.getElementById('btnSkyview'); 
+    if (maptype === 'roadmap') {
+        map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP);    
+        roadmapControl.className = 'selected_btn';
+        skyviewControl.className = 'btn';
+    } else {
+        map.setMapTypeId(kakao.maps.MapTypeId.HYBRID);    
+        skyviewControl.className = 'selected_btn';
+        roadmapControl.className = 'btn';
+    }
+}
+function setGpsCenter()
+{
+console.log("00"); 
+	if (navigator.geolocation )
+	{
+		console.log("11"); 
+		
+		navigator.geolocation.getCurrentPosition( 
+		function( gpsposition){
+		
+		onsole.log("12"); 
+		
+		var lat = gpsposition.coords.latitude;
+		var lon = gpsposition.coords.longitude;
+		onsole.log("13"); 
+		var position = new kakao.maps.LatLng( lat, lon );		
+		
+		onsole.log("14"); 
+		infow.content = '<div style="padding:5px;">Hello Here!!</div>';
+		
+		onsole.log("15"); 
+		infow.open( map, marker);
+		console.log("22"); 
+		});
+	}
+		
+}
+
+</script>
+</body>
+</html>
