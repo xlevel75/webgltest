@@ -1,0 +1,5 @@
+[{"id":"hanultower1","name":"하늘타워","value1":0,"value2":0,"Latitude":37.5770378,"Longitude":127.1935806,"Altitude":0,"prefabObject":"hanultower1"},
+{"id":"hanultower2","name":"하늘타워2","value1":0,"value2":0,"Latitude":37.5767212,"Longitude":127.1937714,"Altitude":0,"prefabObject":"hanultower1"},
+{"id":"hanultower3","name":"하늘타워3","value1":0,"value2":0,"Latitude":37.5764694,"Longitude":127.1937485,"Altitude":0,"prefabObject":"hanultower1"},
+{"id":"hanultower0","name":"하늘시작","value1":0,"value2":0,"Latitude":37.5767517,"Longitude":127.1935501,"Altitude":0,"prefabObject":"hanultower1"},
+{"id":"hanultower5","name":"이건 뭘까..","value1":0,"value2":0,"Latitude":37.5767517,"Longitude":127.1935501,"Altitude":0,"prefabObject":"hanultower1"}]
