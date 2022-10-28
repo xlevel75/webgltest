@@ -1,5 +1,6 @@
-[{"id":"hanultower1","name":"하늘타워","value1":0,"value2":0,"Latitude":37.5770378,"Longitude":127.1935806,"Altitude":0,"prefabObject":"hanultower1"},
-{"id":"hanultower2","name":"하늘타워2","value1":0,"value2":0,"Latitude":37.5767212,"Longitude":127.1937714,"Altitude":0,"prefabObject":"hanultower1"},
-{"id":"hanultower3","name":"하늘타워3","value1":0,"value2":0,"Latitude":37.5764694,"Longitude":127.1937485,"Altitude":0,"prefabObject":"hanultower1"},
+[{"id":"hanultower1","name":"하늘타워1","value1":0,"value2":0,"Latitude":37.57695519,"Longitude":127.19362941,"Altitude":0,"prefabObject":"hanultower1"},
+{"id":"hanultower2","name":"하늘타워2","value1":0,"value2":0,"Latitude":37.57674604,"Longitude":127.19378408,"Altitude":0,"prefabObject":"hanultower1"},
+{"id":"hanultower3","name":"하늘타워3","value1":0,"value2":0,"Latitude":37.57646388,"Longitude":127.19375409,"Altitude":0,"prefabObject":"hanultower1"},
 {"id":"hanultower0","name":"하늘시작","value1":0,"value2":0,"Latitude":37.5767517,"Longitude":127.1935501,"Altitude":0,"prefabObject":"hanultower1"},
-{"id":"seongnamtree","name":"성남나무.","value1":0,"value2":0,"Latitude":37.5767518,"Longitude":127.1935505,"Altitude":0,"prefabObject":"hanultower1"}]
+{"id":"seongnamtree","name":"성남나무.","value1":0,"value2":0,"Latitude":37.5767518,"Longitude":127.1935505,"Altitude":0,"prefabObject":"hanultower1"}
+]
