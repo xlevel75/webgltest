@@ -34,17 +34,6 @@
 </head>
 <body>
     <!--IMAGETARGETS-->
-		<imagetarget id='bfly' src='targets/bfly.png'></imagetarget>
-		<imagetarget id='flower' src='targets/flower.png'></imagetarget>
-		<imagetarget id='lady' src='targets/lady.png'></imagetarget>
-		<imagetarget id='reel' src='targets/reel.png'></imagetarget>
-		<imagetarget id='rmn' src='targets/rmn.png'></imagetarget>
-		<imagetarget id='bear' src='targets/bear.png'></imagetarget>
-		<imagetarget id='seocho1' src='targets/seocho1.png'></imagetarget>
-		<imagetarget id='seocho2' src='targets/seocho2.png'></imagetarget>
-		<imagetarget id='seocho3' src='targets/seocho3.png'></imagetarget>
-		<imagetarget id='seocho4' src='targets/seocho4.png'></imagetarget>
-		<imagetarget id='seocho5' src='targets/seocho5.png'></imagetarget>
 		<imagetarget id='s1' src='targets/1.png'></imagetarget>
 		<imagetarget id='s2' src='targets/2.png'></imagetarget>
 		<imagetarget id='s3' src='targets/3.png'></imagetarget>
@@ -57,7 +46,12 @@
 
     <video id="webcam-video" muted autoplay playsinline style="width:1px;position:absolute"></video>
     <div id="startARDiv" class="ctaDiv">
-        <select id="chooseCamSel" style="display: none;" onchange="SelectCam()"></select>
+        <select id="chooseCamSel" style="display: none;" onchange="SelectCam()">
+            <option>Camera 1</option>
+            <option>Camera 2</option>
+            <option>Camera 3</option>
+            <option selected>Camera 0</option>
+        </select>
         <p style="text-align: center; width:60vw;">This augmented reality experience requires access to your device's camera</p>
         <button id="startARButton" onclick="StartAR()" style="display:none">ALLOW ACCESS</button>
     </div>
@@ -76,9 +70,11 @@
     </div>
     <div id="unity-container" class="unity-mobile">
         <canvas id="unity-canvas" style="width: 100%; height: 100%; background: #0000; z-index: -99"></canvas>
-
+        <div id="unity-loading-image-container">
+            <img id="unity-loading-image" src="TemplateData/intro.jpg" alt="intro_image"/>
+        </div>
         <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
+            <!-- <div id="unity-logo"></div>? -->
             <div id="unity-progress-bar-empty">
                 <div id="unity-progress-bar-full"></div>
             </div>
@@ -104,9 +100,16 @@
     </script>
     <script src="Build/Release2.loader.js"></script>
     <script>
+            // window 로등 될 때 => window.onLoad
+            window.onload = function(){
+                StartAR();
+            }
+            
+
             var container = document.querySelector("#unity-container");
             var canvas = document.querySelector("#unity-canvas");
             var loadingBar = document.querySelector("#unity-loading-bar");
+            var loadingImage = document.querySelector("#unity-loading-image-container");
             var progressBarFull = document.querySelector("#unity-progress-bar-full");
             function StartAR() {
                 canvas.style.width = window.innerWidth + "px";
@@ -145,8 +148,10 @@
                     // };
                     // window.waitForVideo();
                     loadingBar.style.display = "none";
+                    loadingImage.style.display = "none";
                 });
                 loadingBar.style.display = "block";
+                loadingImage.style.display = "block";
             }
             window.WEBCAM_SETTINGS = {
                 video: {
@@ -156,6 +161,7 @@
             };
             async function StartWebcam(){
                 try{
+                    console.log("StartWebCam inserted");
                     var stream = await navigator.mediaDevices.getUserMedia(window.WEBCAM_SETTINGS);
                     const video = document.querySelector("#webcam-video");
                     video.srcObject = stream;
